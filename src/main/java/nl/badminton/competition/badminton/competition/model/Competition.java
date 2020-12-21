@@ -1,0 +1,51 @@
+package nl.badminton.competition.badminton.competition.model;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+/**
+ * @author Stefan van Tilburg <s.g.van.tilburg@st.hanze.nl>
+ */
+@Entity
+public class Competition {
+
+    private static final String DEFAULT_COMPETITION_NAME = "Default competition name";
+    private static final long COMPETITION_ID = -1;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long competitionId;
+
+    private String competitionName;
+
+    public Competition(long competitionId, String competitionName) {
+        this.competitionId = competitionId;
+        this.competitionName = competitionName;
+    }
+
+    public Competition(String competitionName) {
+        this(COMPETITION_ID, competitionName);
+    }
+
+    public Competition() {
+        this(DEFAULT_COMPETITION_NAME);
+    }
+
+    public long getCompetitionId() {
+        return competitionId;
+    }
+
+    public void setCompetitionId(long competitionId) {
+        this.competitionId = competitionId;
+    }
+
+    public String getCompetitionName() {
+        return competitionName;
+    }
+
+    public void setCompetitionName(String competitionName) {
+        this.competitionName = competitionName;
+    }
+}

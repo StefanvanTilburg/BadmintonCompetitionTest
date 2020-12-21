@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Competitions</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <td>Competition name</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="competition:${competitions}">
+                <td th:text="${competition.competitionName}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
