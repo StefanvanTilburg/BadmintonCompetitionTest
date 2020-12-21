@@ -1,9 +1,8 @@
 package nl.badminton.competition.badminton.competition.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Stefan van Tilburg <s.g.van.tilburg@st.hanze.nl>
@@ -20,9 +19,13 @@ public class Competition {
 
     private String competitionName;
 
+    @OneToMany(mappedBy = "competition")
+    private Set<Poule> poules;
+
     public Competition(long competitionId, String competitionName) {
         this.competitionId = competitionId;
         this.competitionName = competitionName;
+        this.poules = new HashSet<>();
     }
 
     public Competition(String competitionName) {
@@ -47,5 +50,13 @@ public class Competition {
 
     public void setCompetitionName(String competitionName) {
         this.competitionName = competitionName;
+    }
+
+    public Set<Poule> getPoules() {
+        return poules;
+    }
+
+    public void setPoules(Set<Poule> poules) {
+        this.poules = poules;
     }
 }

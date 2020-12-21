@@ -17,5 +17,18 @@
             </tr>
         </tbody>
     </table>
+
+    <table>
+        <thead>
+        <tr>
+            <td>Poule name</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="poule:${poules}">
+            <td th:text="${poule.pouleName}"></td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>

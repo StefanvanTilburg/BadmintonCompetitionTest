@@ -1,7 +1,9 @@
 package nl.badminton.competition.badminton.competition;
 
 import nl.badminton.competition.badminton.competition.model.Competition;
+import nl.badminton.competition.badminton.competition.model.Poule;
 import nl.badminton.competition.badminton.competition.repository.CompetitionRepository;
+import nl.badminton.competition.badminton.competition.repository.PouleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +15,9 @@ public class Application implements CommandLineRunner {
 	@Autowired
 	CompetitionRepository competitionRepository;
 
+	@Autowired
+	PouleRepository pouleRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
@@ -21,7 +26,10 @@ public class Application implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		Competition competition = new Competition("First comp in app");
-		competitionRepository.save(competition);
+		competition = competitionRepository.save(competition);
+
+		Poule poule = new Poule("Poule A", competition);
+		pouleRepository.save(poule);
 
 	}
 }
