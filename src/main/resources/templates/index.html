@@ -2,33 +2,12 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Competitions</title>
+    <title>Index</title>
 </head>
 <body>
-    <table>
-        <thead>
-            <tr>
-                <td>Competition name</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="competition:${competitions}">
-                <td th:text="${competition.competitionName}"></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <table>
-        <thead>
-        <tr>
-            <td>Poule name</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="poule:${poules}">
-            <td th:text="${poule.pouleName}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <ul>
+        <li><a th:href="@{/competitions}">Competition Overview</a></li>
+        <li><a th:href="@{/poules}">Poules Overview</a></li>
+    </ul>
 </body>
 </html>

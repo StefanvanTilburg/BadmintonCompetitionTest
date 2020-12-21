@@ -28,8 +28,9 @@ public class Application implements CommandLineRunner {
 		Competition competition = new Competition("First comp in app");
 		competition = competitionRepository.save(competition);
 
-		Poule poule = new Poule("Poule A", competition);
-		pouleRepository.save(poule);
-
+		pouleRepository.save(new Poule("Poule A", competition));
+		pouleRepository.save(new Poule("Poule B", competition));
+		pouleRepository.save(new Poule("Poule C", competition));
+		pouleRepository.save(new Poule("Poule D", competition));
 	}
 }
