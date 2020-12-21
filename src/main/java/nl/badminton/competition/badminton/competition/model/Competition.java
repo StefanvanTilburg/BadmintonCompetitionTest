@@ -17,6 +17,7 @@ public class Competition {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long competitionId;
 
+    @Column(unique = true)
     private String competitionName;
 
     @OneToMany(mappedBy = "competition")

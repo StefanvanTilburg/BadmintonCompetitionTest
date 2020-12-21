@@ -17,4 +17,11 @@
     </tr>
     </tbody>
 </table>
+
+<form th:action="@{/competitions/add}" th:object="${competition}" method="post">
+    <p>Competition name: <input type="text" th:field="*{competitionName}" /></p>
+    <input type="submit" value="Add Competition">
+</form>
+
+</body>
 </html>
