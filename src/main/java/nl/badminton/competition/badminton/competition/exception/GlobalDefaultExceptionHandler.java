@@ -1,4 +1,4 @@
-package nl.badminton.competition.badminton.competition.controller;
+package nl.badminton.competition.badminton.competition.exception;
 
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;

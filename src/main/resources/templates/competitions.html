@@ -12,8 +12,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="competition:${competitions}">
-        <td th:text="${competition.competitionName}"></td>
+    <tr th:each="competitionDto:${competitions}">
+        <td th:text="${competitionDto.competitionDtoName}"></td>
+        <td th:text="${competitionDto.competitionDtoId}"></td>
     </tr>
     </tbody>
 </table>
