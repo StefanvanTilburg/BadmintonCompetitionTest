@@ -21,7 +21,7 @@ public class PouleController {
 
     @GetMapping("/poules")
     protected String getPoules(Model model) {
-        model.addAttribute("poules", pouleRepository.findAll());
+        model.addAttribute("allPoules", pouleRepository.findAll());
         return "poules";
     }
 }

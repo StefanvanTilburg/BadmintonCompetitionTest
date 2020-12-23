@@ -26,10 +26,4 @@ public class CompetitionController {
         model.addAttribute("competition", new Competition());
         return "competitions";
     }
-
-    @PostMapping("/competitions/add")
-    protected String addCompetition(@ModelAttribute Competition competition) {
-        competitionRepository.save(competition);
-        return "redirect:/competitions";
-    }
 }

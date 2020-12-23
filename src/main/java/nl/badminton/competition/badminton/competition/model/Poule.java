@@ -14,6 +14,7 @@ public class Poule {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long pouleId;
 
+    @Column(unique = true)
     private String pouleName;
 
     @ManyToOne
