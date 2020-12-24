@@ -30,4 +30,12 @@ public class CompetitionDto {
     public void setCompetitionDtoName(String competitionDtoName) {
         this.competitionDtoName = competitionDtoName;
     }
+
+    @Override
+    public String toString() {
+        return "CompetitionDto{" +
+                "competitionDtoId=" + competitionDtoId +
+                ", competitionDtoName='" + competitionDtoName + '\'' +
+                '}';
+    }
 }

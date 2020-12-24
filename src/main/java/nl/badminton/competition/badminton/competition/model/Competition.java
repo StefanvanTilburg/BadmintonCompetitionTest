@@ -60,4 +60,13 @@ public class Competition {
     public void setPoules(Set<Poule> poules) {
         this.poules = poules;
     }
+
+    @Override
+    public String toString() {
+        return "Competition{" +
+                "competitionId=" + competitionId +
+                ", competitionName='" + competitionName + '\'' +
+                ", poules=" + poules +
+                '}';
+    }
 }
