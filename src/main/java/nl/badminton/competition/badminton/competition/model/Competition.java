@@ -20,7 +20,7 @@ public class Competition {
     @Column(unique = true)
     private String competitionName;
 
-    @OneToMany(mappedBy = "competition")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "competition")
     private Set<Poule> poules;
 
     public Competition(long competitionId, String competitionName) {
@@ -63,10 +63,12 @@ public class Competition {
 
     @Override
     public String toString() {
-        return "Competition{" +
-                "competitionId=" + competitionId +
-                ", competitionName='" + competitionName + '\'' +
-                ", poules=" + poules +
-                '}';
+        String message = "Competition{competitionId="+ competitionId + ", competitionName='" + competitionName + '\'' +
+                ", poules = {";
+        for (Poule poule : poules) {
+            System.out.println(poule);
+            message += poule.toString() + ", ";
+        }
+        return message + "}}";
     }
 }

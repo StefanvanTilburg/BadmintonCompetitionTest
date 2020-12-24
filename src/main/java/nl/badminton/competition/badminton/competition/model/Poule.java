@@ -61,4 +61,11 @@ public class Poule {
     public void setCompetition(Competition competition) {
         this.competition = competition;
     }
+
+    @Override
+    public String toString() {
+        return "Poule{" +
+                "pouleId=" + pouleId +
+                ", pouleName='" + pouleName + "'}}";
+    }
 }

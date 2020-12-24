@@ -5,6 +5,8 @@ import nl.badminton.competition.badminton.competition.model.CompetitionDto;
 import nl.badminton.competition.badminton.competition.model.Poule;
 import nl.badminton.competition.badminton.competition.repository.CompetitionRepository;
 import nl.badminton.competition.badminton.competition.repository.PouleRepository;
+import nl.badminton.competition.badminton.competition.service.CompetitionService;
+import nl.badminton.competition.badminton.competition.service.CompetitionServiceImplementation;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -39,43 +42,37 @@ public class Application implements CommandLineRunner {
 		pouleRepository.save(new Poule("Poule C", competition));
 		pouleRepository.save(new Poule("Poule D", competition));
 
-		ModelMapper modelMapper = new ModelMapper();
-		PropertyMap<Competition, CompetitionDto> competitionMap = new PropertyMap<Competition, CompetitionDto>() {
-			protected void configure() {
-				map().setCompetitionDtoId(source.getCompetitionId());
-				map(source.getCompetitionName(), destination.getCompetitionDtoName());
-			}
-		};
+		CompetitionService competitionService = new CompetitionServiceImplementation(competitionRepository);
 
-		modelMapper.addMappings(competitionMap);
-		CompetitionDto competitionDto = modelMapper.map(competition, CompetitionDto.class);
-		System.out.println("Competition Id : " + competition.getCompetitionId());
-		System.out.println("CompetitionDto Id : " + competitionDto.getCompetitionDtoId());
-		System.out.println("Competition Name : " + competition.getCompetitionName());
-		System.out.println("CompetitionDto Name : " + competitionDto.getCompetitionDtoName());
+		System.out.println("--------- converting to Dto -------------");
+		CompetitionDto competitionDto = competitionService.convertToDto(competition);
+		System.out.println(competition);
+		System.out.println(competitionDto);
 
 		competition = null;
 		System.out.println("--------- check if null -------------");
 		System.out.println("Competition is null ? : " + (competition == null));
 
+		System.out.println("--------- converting to Entity  -------------");
+		competition = competitionService.convertToEntity(competitionDto);
+		System.out.println(competition);
+		System.out.println(competitionDto);
 
-		competition = modelMapper.map(competitionDto, Competition.class);
-		System.out.println("--------- converting back -------------");
-		System.out.println("Competition Id : " + competition.getCompetitionId());
-		System.out.println("CompetitionDto Id : " + competitionDto.getCompetitionDtoId());
-		System.out.println("Competition Name : " + competition.getCompetitionName());
-		System.out.println("CompetitionDto Name : " + competitionDto.getCompetitionDtoName());
-
+		System.out.println("--------- converting 5 Dto's  -------------");
 		List<CompetitionDto> competitionDtoList = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
 			competitionDtoList.add(new CompetitionDto(i, "Name " + i));
 		}
-		System.out.println("--------- Testing multiple non existance dto's convertions -------------");
 		for (CompetitionDto dto : competitionDtoList) {
-			Competition competition1 = modelMapper.map(dto, Competition.class);
+			Competition competition1 = competitionService.convertToEntity(dto);
 			System.out.println(competition1);
 			System.out.println(dto);
 		}
 
+		System.out.println("Testing if comp will toString with poules attached");
+		Optional<Competition> competition1 = competitionRepository.findById(Long.parseLong("1"));
+		if (competition1.isPresent()) {
+			System.out.println(competition1.get());
+		}
 	}
 }
