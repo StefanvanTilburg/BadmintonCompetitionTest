@@ -41,24 +41,21 @@ public class CompetitionServiceImplementation implements CompetitionService {
 
     @Override
     public CompetitionDto convertToDto(Competition competition) {
-        CompetitionDto competitionDto = modelMapper.map(competition, CompetitionDto.class);
-        return competitionDto;
+        return modelMapper.map(competition, CompetitionDto.class);
     }
 
     @Override
     public Competition convertToEntity(CompetitionDto competitionDto) {
-        Competition competition = modelMapper.map(competitionDto, Competition.class);
-        return competition;
+        return modelMapper.map(competitionDto, Competition.class);
     }
 
     @Override
     public PropertyMap<Competition, CompetitionDto> getCompetitionMap() {
-        PropertyMap<Competition, CompetitionDto> competitionMap = new PropertyMap<Competition, CompetitionDto>() {
+        return new PropertyMap<>() {
             protected void configure() {
                 map().setCompetitionDtoId(source.getCompetitionId());
                 map(source.getCompetitionName(), destination.getCompetitionDtoName());
             }
         };
-        return competitionMap;
     }
 }
