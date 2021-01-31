@@ -1,14 +1,11 @@
 package nl.badminton.competition.badminton.competition;
 
 import nl.badminton.competition.badminton.competition.model.Competition;
-import nl.badminton.competition.badminton.competition.model.CompetitionDto;
+import nl.badminton.competition.badminton.competition.dto.CompetitionDto;
 import nl.badminton.competition.badminton.competition.model.Poule;
-import nl.badminton.competition.badminton.competition.repository.CompetitionRepository;
-import nl.badminton.competition.badminton.competition.repository.PouleRepository;
-import nl.badminton.competition.badminton.competition.service.CompetitionService;
-import nl.badminton.competition.badminton.competition.service.CompetitionServiceImplementation;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
+import nl.badminton.competition.badminton.competition.dto.PouleDto;
+import nl.badminton.competition.badminton.competition.service.ServiceFunctions;
+import nl.badminton.competition.badminton.competition.converter.SuperConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,11 +18,21 @@ import java.util.Optional;
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 
-	@Autowired
-	CompetitionRepository competitionRepository;
+	private final ServiceFunctions<Competition, CompetitionDto> competitionService;
+	private final ServiceFunctions<Poule, PouleDto> pouleService;
+	private final SuperConverter<Competition, CompetitionDto> competitionConverter;
+	private final SuperConverter<Poule, PouleDto> pouleConverter;
 
 	@Autowired
-	PouleRepository pouleRepository;
+	public Application(ServiceFunctions<Competition, CompetitionDto> competitionService,
+					   ServiceFunctions<Poule, PouleDto> pouleService,
+					   SuperConverter<Competition, CompetitionDto> competitionConverter,
+					   SuperConverter<Poule, PouleDto> pouleConverter) {
+		this.competitionService = competitionService;
+		this.pouleService = pouleService;
+		this.competitionConverter = competitionConverter;
+		this.pouleConverter = pouleConverter;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -35,17 +42,15 @@ public class Application implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		Competition competition = new Competition("First comp in app");
-		competition = competitionRepository.save(competition);
+		competition = competitionService .saveEntity(competition);
 
-		pouleRepository.save(new Poule("Poule A", competition));
-		pouleRepository.save(new Poule("Poule B", competition));
-		pouleRepository.save(new Poule("Poule C", competition));
-		pouleRepository.save(new Poule("Poule D", competition));
-
-		CompetitionService competitionService = new CompetitionServiceImplementation(competitionRepository);
+		pouleService.saveEntity(new Poule("Poule A", competition));
+		pouleService.saveEntity(new Poule("Poule B", competition));
+		pouleService.saveEntity(new Poule("Poule C", competition));
+		pouleService.saveEntity(new Poule("Poule D", competition));
 
 		System.out.println("--------- converting to Dto -------------");
-		CompetitionDto competitionDto = competitionService.convertToDto(competition);
+		CompetitionDto competitionDto = competitionConverter.convertToDto(competition);
 		System.out.println(competition);
 		System.out.println(competitionDto);
 
@@ -54,25 +59,23 @@ public class Application implements CommandLineRunner {
 		System.out.println("Competition is null ? : " + (competition == null));
 
 		System.out.println("--------- converting to Entity  -------------");
-		competition = competitionService.convertToEntity(competitionDto);
+		competition = competitionConverter.convertToEntity(competitionDto);
 		System.out.println(competition);
 		System.out.println(competitionDto);
 
 		System.out.println("--------- converting 5 Dto's  -------------");
 		List<CompetitionDto> competitionDtoList = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
-			competitionDtoList.add(new CompetitionDto(i, "Name " + i));
+			competitionDtoList.add(new CompetitionDto("Name " + i));
 		}
 		for (CompetitionDto dto : competitionDtoList) {
-			Competition competition1 = competitionService.convertToEntity(dto);
+			Competition competition1 = competitionConverter.convertToEntity(dto);
 			System.out.println(competition1);
 			System.out.println(dto);
 		}
 
 		System.out.println("Testing if comp will toString with poules attached");
-		Optional<Competition> competition1 = competitionRepository.findById(Long.parseLong("1"));
-		if (competition1.isPresent()) {
-			System.out.println(competition1.get());
-		}
+		Optional<Competition> competition1 = competitionService.findById(1L);
+		competition1.ifPresent(System.out::println);
 	}
 }

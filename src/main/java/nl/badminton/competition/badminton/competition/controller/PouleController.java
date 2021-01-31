@@ -1,6 +1,8 @@
 package nl.badminton.competition.badminton.competition.controller;
 
-import nl.badminton.competition.badminton.competition.repository.PouleRepository;
+import nl.badminton.competition.badminton.competition.dto.PouleDto;
+import nl.badminton.competition.badminton.competition.model.Poule;
+import nl.badminton.competition.badminton.competition.service.ServiceFunctions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,16 +14,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class PouleController {
 
-    private PouleRepository pouleRepository;
+    private final ServiceFunctions<Poule, PouleDto> pouleService;
 
     @Autowired
-    public PouleController(PouleRepository pouleRepository) {
-        this.pouleRepository = pouleRepository;
+    public PouleController(ServiceFunctions<Poule, PouleDto> pouleService) {
+        this.pouleService = pouleService;
     }
 
     @GetMapping("/poules")
     protected String getPoules(Model model) {
-        model.addAttribute("allPoules", pouleRepository.findAll());
+        model.addAttribute("allPoules", pouleService.getAll());
         return "poules";
     }
 }
