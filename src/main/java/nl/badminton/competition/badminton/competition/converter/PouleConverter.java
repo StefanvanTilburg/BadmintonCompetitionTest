@@ -17,12 +17,16 @@ public class PouleConverter implements SuperConverter<Poule, PouleDto> {
 
     private final ModelMapper modelMapper;
 
+    public PouleConverter(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
     public PouleConverter() {
-        this.modelMapper = new ModelMapper();
+        this(new ModelMapper());
     }
 
     @Override
-    public PropertyMap<Poule, PouleDto> getConvertionMap() {
+    public PropertyMap<Poule, PouleDto> getConversionMap() {
         return new PropertyMap<>() {
             protected void configure() {
                 map(source.getPouleName(), destination.getName());

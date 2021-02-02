@@ -67,7 +67,7 @@ public class Competition {
                 ", poules = {";
         for (Poule poule : poules) {
             System.out.println(poule);
-            message += poule.toString() + ", ";
+            message = message.concat(poule.toString() + ", ");
         }
         return message + "}}";
     }

@@ -9,12 +9,15 @@
     <thead>
     <tr>
         <td>Competition name</td>
+        <td>Competition poules</td>
+        <td>Kolom per poule</td>
     </tr>
     </thead>
     <tbody>
     <tr th:each="competition:${competitions}">
         <td th:text="${competition.name}"></td>
         <td th:text="${competition.poules}"></td>
+        <td th:each="poule : ${competition.getPoules()}" th:text="${poule.name}"></td>
     </tr>
     </tbody>
 </table>

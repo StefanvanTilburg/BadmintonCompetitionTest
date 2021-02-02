@@ -16,15 +16,20 @@ public class CompetitionConverter implements SuperConverter<Competition, Competi
 
     private final ModelMapper modelMapper;
 
+    public CompetitionConverter(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
     public CompetitionConverter() {
-        this.modelMapper = new ModelMapper();
+        this(new ModelMapper());
     }
 
     @Override
-    public PropertyMap<Competition, CompetitionDto> getConvertionMap() {
+    public PropertyMap<Competition, CompetitionDto> getConversionMap() {
         return new PropertyMap<>() {
             protected void configure() {
                 map(source.getCompetitionName(), destination.getName());
+                map(source.getPoules(), destination.getPoules());
             }
         };
     }
