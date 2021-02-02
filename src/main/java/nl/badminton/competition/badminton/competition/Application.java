@@ -11,9 +11,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -41,41 +41,73 @@ public class Application implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Competition competition = new Competition("First comp in app");
-		competition = competitionService .saveEntity(competition);
+		// Add one competition and save child poules through saveEntity of competition
+		CompetitionDto competitionDto1 = new CompetitionDto("First Competition");
+		List<PouleDto> pouleDtoList1 = new ArrayList<>();
+		PouleDto pouleDto1 = new PouleDto("Poule A");
+		PouleDto pouleDto2 = new PouleDto("Poule B");
+		PouleDto pouleDto3 = new PouleDto("Poule C");
+		PouleDto pouleDto4 = new PouleDto("Poule D");
+		pouleDtoList1.add(pouleDto1);
+		pouleDtoList1.add(pouleDto2);
+		pouleDtoList1.add(pouleDto3);
+		pouleDtoList1.add(pouleDto4);
+		competitionDto1.setPoules(pouleDtoList1);
 
-		pouleService.saveEntity(new Poule("Poule A", competition));
-		pouleService.saveEntity(new Poule("Poule B", competition));
-		pouleService.saveEntity(new Poule("Poule C", competition));
-		pouleService.saveEntity(new Poule("Poule D", competition));
-
-		System.out.println("--------- converting to Dto -------------");
-		CompetitionDto competitionDto = competitionConverter.convertToDto(competition);
-		System.out.println(competition);
-		System.out.println(competitionDto);
-
-		competition = null;
-		System.out.println("--------- check if null -------------");
-		System.out.println("Competition is null ? : " + (competition == null));
-
-		System.out.println("--------- converting to Entity  -------------");
-		competition = competitionConverter.convertToEntity(competitionDto);
-		System.out.println(competition);
-		System.out.println(competitionDto);
-
-		System.out.println("--------- converting 5 Dto's  -------------");
-		List<CompetitionDto> competitionDtoList = new ArrayList<>();
-		for (int i = 0; i < 5; i++) {
-			competitionDtoList.add(new CompetitionDto("Name " + i));
-		}
-		for (CompetitionDto dto : competitionDtoList) {
-			Competition competition1 = competitionConverter.convertToEntity(dto);
-			System.out.println(competition1);
-			System.out.println(dto);
+		try {
+			competitionService.saveEntity(competitionDto1);
+		} catch (SQLDataException e) {
+			System.out.println("Not saved error caught!");
 		}
 
-		System.out.println("Testing if comp will toString with poules attached");
-		Optional<Competition> competition1 = competitionService.findById(1L);
-		competition1.ifPresent(System.out::println);
+
+		// Add two competition and save child poules through saveEntity of competition
+		CompetitionDto competitionDto2 = new CompetitionDto("Second Competition");
+		List<PouleDto> pouleDtoList2 = new ArrayList<>();
+		PouleDto pouleDto5 = new PouleDto("Poule E");
+		PouleDto pouleDto6 = new PouleDto("Poule F");
+		PouleDto pouleDto7 = new PouleDto("Poule G");
+		PouleDto pouleDto8 = new PouleDto("Poule H");
+		pouleDtoList2.add(pouleDto5);
+		pouleDtoList2.add(pouleDto6);
+		pouleDtoList2.add(pouleDto7);
+		pouleDtoList2.add(pouleDto8);
+		competitionDto2.setPoules(pouleDtoList2);
+
+		try {
+			competitionService.saveEntity(competitionDto2);
+		} catch (SQLDataException e) {
+			System.out.println("Not saved error caught!");
+		}
+
+		// Add two poules and 1 existing
+		PouleDto pouleDto9 = new PouleDto("Poule E");
+		PouleDto pouleDto10 = new PouleDto("Poule F");
+		pouleDtoList2.add(pouleDto9);
+		pouleDtoList2.add(pouleDto10);
+		competitionDto2.setPoules(pouleDtoList2);
+
+		try {
+			competitionService.saveEntity(competitionDto2);
+		} catch (SQLDataException e) {
+			System.out.println("Not saved error caught!");
+		}
+
+		//----------------------------------------------------later
+		//Add poule that is not connected to a competition
+		PouleDto newPouleDto1 = new PouleDto("Without competition?");
+		try {
+			pouleService.saveEntity(newPouleDto1);
+		} catch (SQLDataException e) {
+			System.out.println("Not saved error caught!");
+		}
+
+		//Add poule that is not connected to a competition
+		PouleDto newPouleDto2 = new PouleDto("Without competition2?");
+		try {
+			pouleService.saveEntity(newPouleDto2);
+		} catch (SQLDataException e) {
+			System.out.println("Not saved error caught!");
+		}
 	}
 }

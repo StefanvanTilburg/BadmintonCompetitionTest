@@ -3,9 +3,13 @@ package nl.badminton.competition.badminton.competition.service;
 import nl.badminton.competition.badminton.competition.converter.CompetitionConverter;
 import nl.badminton.competition.badminton.competition.model.Competition;
 import nl.badminton.competition.badminton.competition.dto.CompetitionDto;
+import nl.badminton.competition.badminton.competition.model.Poule;
 import nl.badminton.competition.badminton.competition.repository.CompetitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+
+import java.sql.SQLDataException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,12 +38,33 @@ public class CompetitionServiceImplementation implements ServiceFunctions<Compet
     }
 
     @Override
-    public Optional<Competition> findById(long id) {
-        return competitionRepository.findById(id);
+    public Optional<CompetitionDto> findById(long id) {
+        Optional<Competition> competition = competitionRepository.findById(id);
+        Optional<CompetitionDto> competitionDto = Optional.empty();
+
+        if (competition.isPresent()) {
+            competitionDto = Optional.of(competitionConverter.convertToDto(competition.get()));
+        }
+
+        return competitionDto;
     }
 
     @Override
-    public Competition saveEntity(Competition input) {
-        return competitionRepository.save(input);
+    public CompetitionDto saveEntity(CompetitionDto input) throws SQLDataException {
+        Competition competition = competitionConverter.convertToEntity(input);
+        // Set reference to this competition inside poule in competition.poules variable!
+        // Because in Entity Competition with relation OneToMany(cascade = Cascade.All) the poules will be saved
+        // as will the competition with competitionRepository.save(competition).
+        for (Poule poule : competition.getPoules()) {
+            poule.setCompetition(competition);
+        }
+
+        try {
+            competition = competitionRepository.save(competition);
+        } catch (DataAccessException exception) {
+            throw new SQLDataException("Not able to save: " + exception.getMessage());
+        }
+
+        return competitionConverter.convertToDto(competition);
     }
 }

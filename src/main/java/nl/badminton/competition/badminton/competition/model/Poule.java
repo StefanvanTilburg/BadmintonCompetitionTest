@@ -17,7 +17,7 @@ public class Poule {
     @Column(unique = true)
     private String pouleName;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Competition competition;
 
     public Poule(long pouleId, String pouleName, Competition competition) {
