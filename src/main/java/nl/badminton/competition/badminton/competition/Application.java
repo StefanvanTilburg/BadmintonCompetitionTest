@@ -60,54 +60,63 @@ public class Application implements CommandLineRunner {
 			System.out.println("Not saved error caught!");
 		}
 
-
-		// Add two competition and save child poules through saveEntity of competition
-		CompetitionDto competitionDto2 = new CompetitionDto("Second Competition");
-		List<PouleDto> pouleDtoList2 = new ArrayList<>();
-		PouleDto pouleDto5 = new PouleDto("Poule E");
-		PouleDto pouleDto6 = new PouleDto("Poule F");
-		PouleDto pouleDto7 = new PouleDto("Poule G");
-		PouleDto pouleDto8 = new PouleDto("Poule H");
-		pouleDtoList2.add(pouleDto5);
-		pouleDtoList2.add(pouleDto6);
-		pouleDtoList2.add(pouleDto7);
-		pouleDtoList2.add(pouleDto8);
-		competitionDto2.setPoules(pouleDtoList2);
+		List<PouleDto> pouleDtoList = new ArrayList<>();
+		pouleDtoList.add(new PouleDto("Test addition"));
+		competitionDto1.setPoules(pouleDtoList);
 
 		try {
-			competitionService.saveEntity(competitionDto2);
+			competitionService.updateEntity(competitionDto1);
 		} catch (SQLDataException e) {
-			System.out.println("Not saved error caught!");
+			System.out.println("Updating went wrong!");
 		}
 
-		// Add two poules and 1 existing
-		PouleDto pouleDto9 = new PouleDto("Poule E");
-		PouleDto pouleDto10 = new PouleDto("Poule F");
-		pouleDtoList2.add(pouleDto9);
-		pouleDtoList2.add(pouleDto10);
-		competitionDto2.setPoules(pouleDtoList2);
-
-		try {
-			competitionService.saveEntity(competitionDto2);
-		} catch (SQLDataException e) {
-			System.out.println("Not saved error caught!");
-		}
-
-		//----------------------------------------------------later
-		//Add poule that is not connected to a competition
-		PouleDto newPouleDto1 = new PouleDto("Without competition?");
-		try {
-			pouleService.saveEntity(newPouleDto1);
-		} catch (SQLDataException e) {
-			System.out.println("Not saved error caught!");
-		}
-
-		//Add poule that is not connected to a competition
-		PouleDto newPouleDto2 = new PouleDto("Without competition2?");
-		try {
-			pouleService.saveEntity(newPouleDto2);
-		} catch (SQLDataException e) {
-			System.out.println("Not saved error caught!");
-		}
+//		// Add two competition and save child poules through saveEntity of competition
+//		CompetitionDto competitionDto2 = new CompetitionDto("Second Competition");
+//		List<PouleDto> pouleDtoList2 = new ArrayList<>();
+//		PouleDto pouleDto5 = new PouleDto("Poule E");
+//		PouleDto pouleDto6 = new PouleDto("Poule F");
+//		PouleDto pouleDto7 = new PouleDto("Poule G");
+//		PouleDto pouleDto8 = new PouleDto("Poule H");
+//		pouleDtoList2.add(pouleDto5);
+//		pouleDtoList2.add(pouleDto6);
+//		pouleDtoList2.add(pouleDto7);
+//		pouleDtoList2.add(pouleDto8);
+//		competitionDto2.setPoules(pouleDtoList2);
+//
+//		try {
+//			competitionService.saveEntity(competitionDto2);
+//		} catch (SQLDataException e) {
+//			System.out.println("Not saved error caught!");
+//		}
+//
+//		// Add two poules and 1 existing
+//		PouleDto pouleDto9 = new PouleDto("Poule E");
+//		PouleDto pouleDto10 = new PouleDto("Poule F");
+//		pouleDtoList2.add(pouleDto9);
+//		pouleDtoList2.add(pouleDto10);
+//		competitionDto2.setPoules(pouleDtoList2);
+//
+//		try {
+//			competitionService.saveEntity(competitionDto2);
+//		} catch (SQLDataException e) {
+//			System.out.println("Not saved error caught!");
+//		}
+//
+//		//----------------------------------------------------later
+//		//Add poule that is not connected to a competition
+//		PouleDto newPouleDto1 = new PouleDto("Without competition?");
+//		try {
+//			pouleService.saveEntity(newPouleDto1);
+//		} catch (SQLDataException e) {
+//			System.out.println("Not saved error caught!");
+//		}
+//
+//		//Add poule that is not connected to a competition
+//		PouleDto newPouleDto2 = new PouleDto("Without competition2?");
+//		try {
+//			pouleService.saveEntity(newPouleDto2);
+//		} catch (SQLDataException e) {
+//			System.out.println("Not saved error caught!");
+//		}
 	}
 }

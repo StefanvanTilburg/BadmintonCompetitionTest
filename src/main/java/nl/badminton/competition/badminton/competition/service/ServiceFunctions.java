@@ -7,5 +7,7 @@ import java.util.Optional;
 public interface ServiceFunctions<A, B> {
     List<B> getAll();
     Optional<B> findById(long id);
+    Optional<B> findByName(String name);
     B saveEntity(B input) throws SQLDataException;
+    B updateEntity(B input) throws SQLDataException;
 }

@@ -50,6 +50,18 @@ public class CompetitionServiceImplementation implements ServiceFunctions<Compet
     }
 
     @Override
+    public Optional<CompetitionDto> findByName(String name) {
+        Optional<Competition> competition = competitionRepository.findByCompetitionName(name);
+        Optional<CompetitionDto> competitionDto = Optional.empty();
+
+        if (competition.isPresent()) {
+            competitionDto = Optional.of(competitionConverter.convertToDto(competition.get()));
+        }
+
+        return competitionDto;
+    }
+
+    @Override
     public CompetitionDto saveEntity(CompetitionDto input) throws SQLDataException {
         Competition competition = competitionConverter.convertToEntity(input);
         // Set reference to this competition inside poule in competition.poules variable!
@@ -66,5 +78,29 @@ public class CompetitionServiceImplementation implements ServiceFunctions<Compet
         }
 
         return competitionConverter.convertToDto(competition);
+    }
+
+    //TODO : Additions work fine, but saving the Entity where the poules already exists gives duplicate error.
+    // Not sure how to fix for now WIP.
+    @Override
+    public CompetitionDto updateEntity(CompetitionDto input) throws SQLDataException {
+        Optional<Competition> competition = competitionRepository.findByCompetitionName(input.getName());
+        Competition competitionInput = competitionConverter.convertToEntity(input);
+
+        if (competition.isPresent()) {
+
+            competitionInput.setCompetitionId(competition.get().getCompetitionId());
+            for (Poule poule : competitionInput.getPoules()) {
+                poule.setCompetition(competitionInput);
+            }
+
+            try {
+                competitionInput = competitionRepository.save(competitionInput);
+            } catch (DataAccessException exception) {
+                throw new SQLDataException("Not able to save: " + exception.getMessage());
+            }
+        }
+
+        return competitionConverter.convertToDto(competitionInput);
     }
 }
