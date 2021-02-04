@@ -71,6 +71,10 @@ public class PouleServiceImplementation implements ServiceFunctions<Poule, Poule
         if (competition.isPresent()) {
             // Set reference to found competition this prevents duplicate save errors
             poule.setCompetition(competition.get());
+        } else {
+            // Save new competition and set reference to it in poule
+            Competition competitionSaved = competitionRepository.save(poule.getCompetition());
+            poule.setCompetition(competitionSaved);
         }
 
         // Because the Entity Poule has relation ManyToOne(cascade = Cascade.All) to Competition. A new Competition
@@ -103,5 +107,18 @@ public class PouleServiceImplementation implements ServiceFunctions<Poule, Poule
         }
 
         return pouleConverter.convertToDto(poule.get());
+    }
+
+    @Override
+    public void deleteEntity(PouleDto input) throws SQLDataException {
+        Optional<Poule> poule = pouleRepository.findByPouleName(input.getName());
+
+        if (poule.isPresent()) {
+            try {
+                pouleRepository.delete(poule.get());
+            } catch (DataAccessException exception) {
+                throw new SQLDataException("Error during delete: " + exception.getMessage());
+            }
+        }
     }
 }

@@ -10,4 +10,5 @@ public interface ServiceFunctions<A, B> {
     Optional<B> findByName(String name);
     B saveEntity(B input) throws SQLDataException;
     B updateEntity(B input) throws SQLDataException;
+    void deleteEntity(B input) throws SQLDataException;
 }

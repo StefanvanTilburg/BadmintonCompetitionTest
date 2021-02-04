@@ -103,4 +103,17 @@ public class CompetitionServiceImplementation implements ServiceFunctions<Compet
 
         return competitionConverter.convertToDto(competitionInput);
     }
+
+    @Override
+    public void deleteEntity(CompetitionDto input) throws SQLDataException {
+        Optional<Competition> competition = competitionRepository.findByCompetitionName(input.getName());
+
+        if (competition.isPresent()) {
+            try {
+                competitionRepository.delete(competition.get());
+            } catch (DataAccessException exception) {
+                throw new SQLDataException("Not able to delete: " + exception.getMessage());
+            }
+        }
+    }
 }
