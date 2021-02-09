@@ -9,7 +9,6 @@ import nl.badminton.competition.badminton.competition.repository.PouleRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-
 import java.sql.SQLDataException;
 import java.util.List;
 import java.util.Optional;
