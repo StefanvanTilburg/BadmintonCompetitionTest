@@ -29,6 +29,7 @@ public class PouleConverter implements SuperConverter<Poule, PouleDto> {
     public PropertyMap<Poule, PouleDto> getConversionMap() {
         return new PropertyMap<>() {
             protected void configure() {
+                map(source.getPouleId(), destination.getId());
                 map(source.getPouleName(), destination.getName());
             }
         };

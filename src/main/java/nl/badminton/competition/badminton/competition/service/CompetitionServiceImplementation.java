@@ -58,7 +58,6 @@ public class CompetitionServiceImplementation implements ServiceFunctions<Compet
             competitionDto = Optional.of(competitionConverter.convertToDto(competition.get()));
         }
 
-
         return competitionDto;
     }
 

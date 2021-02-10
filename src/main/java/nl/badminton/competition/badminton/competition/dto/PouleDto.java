@@ -5,14 +5,28 @@ package nl.badminton.competition.badminton.competition.dto;
  */
 public class PouleDto {
 
+    private long id;
     private String name;
 
-    public PouleDto(String name) {
+    public PouleDto(long id, String name) {
+        this.id = id;
         this.name = name;
+    }
+
+    public PouleDto(String name) {
+        this(-1, name);
     }
 
     public PouleDto() {
         this("");
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -25,6 +39,9 @@ public class PouleDto {
 
     @Override
     public String toString() {
-        return "Poule{name='" + name + '\'' + '}';
+        return "PouleDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

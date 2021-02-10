@@ -88,10 +88,9 @@ public class PouleServiceImplementation implements ServiceFunctions<Poule, Poule
         return pouleConverter.convertToDto(poule);
     }
 
-    //TODO : This update function will not do anything because name is the identifying variable, so it can't be changed.
     @Override
     public PouleDto updateEntity(PouleDto input) throws SQLDataException {
-        Optional<Poule> poule = pouleRepository.findByPouleName(input.getName());
+        Optional<Poule> poule = pouleRepository.findById(input.getId());
 
         if (poule.isPresent()) {
             poule.get().setPouleName(input.getName());
@@ -110,7 +109,7 @@ public class PouleServiceImplementation implements ServiceFunctions<Poule, Poule
 
     @Override
     public void deleteEntity(PouleDto input) throws SQLDataException {
-        Optional<Poule> poule = pouleRepository.findByPouleName(input.getName());
+        Optional<Poule> poule = pouleRepository.findById(input.getId());
 
         if (poule.isPresent()) {
             try {

@@ -36,11 +36,11 @@ class PouleConverterTest {
     }
 
     private PouleDto getPouleDto1() {
-        return new PouleDto("Poule 1");
+        return new PouleDto(1,"Poule 1");
     }
 
     private PouleDto getPouleDto2() {
-        return new PouleDto("Poule 2");
+        return new PouleDto(2,"Poule 2");
     }
 
     @Test
