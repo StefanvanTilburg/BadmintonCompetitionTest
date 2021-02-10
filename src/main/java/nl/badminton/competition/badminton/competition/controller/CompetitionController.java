@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLDataException;
+
 /**
  * @author Stefan van Tilburg <s.g.van.tilburg@st.hanze.nl>
  */
@@ -26,5 +28,17 @@ public class CompetitionController {
         model.addAttribute("competitions", competitionService.getAll());
         model.addAttribute("competition", new Competition());
         return "competitions";
+    }
+
+    @GetMapping("/competitionsform")
+    protected String getForm(Model model) {
+        model.addAttribute("competition", new CompetitionDto());
+        return "competitionForm";
+    }
+
+    @PostMapping("/competitionformsave")
+    protected String saveForm(@ModelAttribute CompetitionDto competitionDto) throws SQLDataException {
+        competitionService.saveEntity(competitionDto);
+        return "redirect:/competitions";
     }
 }
