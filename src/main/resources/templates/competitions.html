@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Competitions</title>
+<head th:replace="fragments/globals.html :: headerInfo(~{::title})">
+    <title>Competitions page</title>
 </head>
 <body>
-<table>
-    <thead>
-    <tr>
-        <td>Competition name</td>
-        <td>Competition poules</td>
-        <td>Kolom per poule</td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="competition:${competitions}">
-        <td th:text="${competition.name}"></td>
-        <td th:text="${competition.poules}"></td>
-        <td th:each="poule : ${competition.getPoules()}" th:text="${poule.name}"></td>
-    </tr>
-    </tbody>
-</table>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table-striped">
+                <thead>
+                <tr>
+                    <td>Competition name</td>
+                    <td>Competition poules</td>
+                    <td>Kolom per poule</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="competition:${competitions}">
+                    <td th:text="${competition.name}"></td>
+                    <td th:text="${competition.poules}"></td>
+                    <td th:each="poule : ${competition.getPoules()}" th:text="${poule.name}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
+<div th:replace="fragments/globals.html :: bottom_scripts"></div>
 </body>
 </html>
