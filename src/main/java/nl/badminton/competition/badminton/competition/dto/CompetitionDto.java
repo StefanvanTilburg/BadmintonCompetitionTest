@@ -8,20 +8,39 @@ import java.util.List;
  */
 public class CompetitionDto {
 
+    private static final int ID = -1;
+    private long id;
     private String name;
     private List<PouleDto> poules;
 
-    public CompetitionDto(String name, List<PouleDto> poules) {
+    public CompetitionDto(long id, String name, List<PouleDto> poules) {
+        this.id = id;
         this.name = name;
         this.poules = poules;
     }
 
+    public CompetitionDto(String name, List<PouleDto> poules) {
+        this(ID, name, poules);
+    }
+
+    public CompetitionDto(long id, String name) {
+        this(id, name, new ArrayList<>());
+    }
+
     public CompetitionDto(String name) {
-        this(name, new ArrayList<>());
+        this(ID, name);
     }
 
     public CompetitionDto() {
         this("");
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

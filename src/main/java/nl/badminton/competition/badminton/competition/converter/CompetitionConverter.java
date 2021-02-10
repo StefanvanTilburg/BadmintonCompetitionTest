@@ -28,6 +28,7 @@ public class CompetitionConverter implements SuperConverter<Competition, Competi
     public PropertyMap<Competition, CompetitionDto> getConversionMap() {
         return new PropertyMap<>() {
             protected void configure() {
+                map(source.getCompetitionId(), destination.getId());
                 map(source.getCompetitionName(), destination.getName());
                 map(source.getPoules(), destination.getPoules());
             }

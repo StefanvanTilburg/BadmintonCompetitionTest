@@ -80,11 +80,9 @@ public class CompetitionServiceImplementation implements ServiceFunctions<Compet
         return competitionConverter.convertToDto(competition);
     }
 
-    //TODO : Additions work fine, but saving the Entity where the poules already exists gives duplicate error.
-    // Not sure how to fix for now WIP.
     @Override
     public CompetitionDto updateEntity(CompetitionDto input) throws SQLDataException {
-        Optional<Competition> competition = competitionRepository.findByCompetitionName(input.getName());
+        Optional<Competition> competition = competitionRepository.findById(input.getId());
         Competition competitionInput = competitionConverter.convertToEntity(input);
 
         if (competition.isPresent()) {
@@ -106,7 +104,7 @@ public class CompetitionServiceImplementation implements ServiceFunctions<Compet
 
     @Override
     public void deleteEntity(CompetitionDto input) throws SQLDataException {
-        Optional<Competition> competition = competitionRepository.findByCompetitionName(input.getName());
+        Optional<Competition> competition = competitionRepository.findById(input.getId());
 
         if (competition.isPresent()) {
             try {

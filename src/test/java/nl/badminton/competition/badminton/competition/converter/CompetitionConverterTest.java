@@ -24,11 +24,11 @@ class CompetitionConverterTest {
     }
 
     private CompetitionDto getFirstCompetitionDto() {
-        return new CompetitionDto("First competition");
+        return new CompetitionDto(1,"First competition");
     }
 
     private CompetitionDto getSecondCompetitionDto() {
-        return new CompetitionDto("First competition");
+        return new CompetitionDto(2, "Second competition");
     }
 
     private Competition getFirstCompetition() {

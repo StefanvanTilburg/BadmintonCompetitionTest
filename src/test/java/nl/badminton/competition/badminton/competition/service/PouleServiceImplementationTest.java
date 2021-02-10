@@ -35,7 +35,7 @@ class PouleServiceImplementationTest {
     }
 
     private Competition getDefaultCompetition() {
-        return new Competition("First competition");
+        return new Competition(1,"First competition");
     }
 
     private Poule getFirstPoule(Competition competition) {
@@ -47,11 +47,11 @@ class PouleServiceImplementationTest {
     }
 
     private PouleDto getPouleDto1() {
-        return new PouleDto("Poule 1");
+        return new PouleDto(1,"Poule 1");
     }
 
     private PouleDto getPouleDto2() {
-        return new PouleDto("Poule 2");
+        return new PouleDto(2, "Poule 2");
     }
 
     @Test
@@ -175,7 +175,7 @@ class PouleServiceImplementationTest {
         PouleDto pouleDto = getPouleDto1();
 
         //Act
-        when(pouleRepository.findByPouleName(poule.get().getPouleName())).thenReturn(poule);
+        when(pouleRepository.findById(poule.get().getPouleId())).thenReturn(poule);
         pouleService.deleteEntity(pouleDto);
 
         //Assert
