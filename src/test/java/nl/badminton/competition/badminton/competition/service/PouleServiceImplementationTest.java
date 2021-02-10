@@ -164,7 +164,7 @@ class PouleServiceImplementationTest {
 
     @Test
     void updateEntity() {
-        // not usefull for now
+        // not useful for now
     }
 
     @Test
