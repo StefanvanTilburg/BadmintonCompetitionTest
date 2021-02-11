@@ -20,7 +20,7 @@ public class Competition {
     @Column(unique = true)
     private String competitionName;
 
-    @OneToMany(mappedBy = "competition", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL)
     private Set<Poule> poules;
 
     public Competition(long competitionId, String competitionName) {

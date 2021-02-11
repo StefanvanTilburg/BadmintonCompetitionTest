@@ -7,25 +7,44 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <table class="table-striped">
-                <thead>
-                <tr>
-                    <td>Competition name</td>
-                    <td>Competition poules</td>
-                    <td>Kolom per poule</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="competition:${competitions}">
-                    <td th:text="${competition.name}"></td>
-                    <td th:text="${competition.poules}"></td>
-                    <td th:each="poule : ${competition.getPoules()}" th:text="${poule.name}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div>
-            <a th:href="@{/competitionsform}">Competition form</a>
+            <div>
+                <table class="table-striped">
+                    <thead>
+                    <tr>
+                        <td>Competition name</td>
+                        <td>Competition poules</td>
+                        <td>Kolom per poule</td>
+                        <td>Remove</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="competition:${competitions}">
+                        <td th:text="${competition.name}"></td>
+                        <td th:text="${competition.poules}"></td>
+                        <!--Following two lines are for thymeleaf + IntelliJ error prevention-->
+                        <!--/*@thymesVar id="poule" type="nl.badminton.competition.badminton.competition.dto.PouleDto"*/-->
+                        <!--@thymesVar id="name" type="String"-->
+                        <td th:each="poule : ${competition.getPoules()}" th:text="${poule.name}"></td>
+                        <td>
+                            <form th:action="@{/competitions/delete}" th:object="${transfer}" method="post">
+                                <input type="hidden" name="id" th:value="${competition.id}">
+                                <input type="hidden" name="name" th:value="${competition.name}">
+                                <input type="hidden" name="poules" th:value="${competition.poules}">
+                                <button type="submit">
+                                    <svg th:replace="fragments/globals.html :: minus"></svg>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <form th:replace="competitionForm.html :: createForm"></form>
+            </div>
+            <div>
+                <form th:replace="competitionForm.html :: updateForm"></form>
+            </div>
         </div>
     </div>
 </div>

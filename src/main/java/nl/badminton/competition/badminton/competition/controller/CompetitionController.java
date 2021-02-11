@@ -26,19 +26,34 @@ public class CompetitionController {
     @GetMapping("/competitions")
     protected String getIndex(Model model) {
         model.addAttribute("competitions", competitionService.getAll());
-        model.addAttribute("competition", new Competition());
+        model.addAttribute("createCompetition", new CompetitionDto());
+        model.addAttribute("updateCompetition", new CompetitionDto());
         return "competitions";
     }
 
     @GetMapping("/competitionsform")
     protected String getForm(Model model) {
-        model.addAttribute("competition", new CompetitionDto());
+        model.addAttribute("competitions", competitionService.getAll());
+        model.addAttribute("createCompetition", new CompetitionDto());
+        model.addAttribute("updateCompetition", new CompetitionDto());
         return "competitionForm";
     }
 
-    @PostMapping("/competitionformsave")
+    @PostMapping("/competitions/save")
     protected String saveForm(@ModelAttribute CompetitionDto competitionDto) throws SQLDataException {
         competitionService.saveEntity(competitionDto);
+        return "redirect:/competitions";
+    }
+
+    @PostMapping("/competitions/delete")
+    protected String deleteCompetition(@ModelAttribute CompetitionDto competitionDto) throws SQLDataException {
+        competitionService.deleteEntity(competitionDto);
+        return "redirect:/competitions";
+    }
+
+    @PostMapping("/competitions/edit")
+    protected String editCompetition(@ModelAttribute CompetitionDto competitionDto) throws SQLDataException {
+        competitionService.updateEntity(competitionDto);
         return "redirect:/competitions";
     }
 }

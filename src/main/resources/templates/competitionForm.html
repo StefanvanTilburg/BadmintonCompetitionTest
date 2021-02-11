@@ -7,10 +7,38 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <form th:object="${competition}" th:action="@{/competitionformsave}" method="post">
-                <label>
-                    <input th:field="*{name}" />
-                </label>
+            <form th:fragment="createForm" th:object="${createCompetition}" th:action="@{/competitions/save}" method="post">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text" id="btnGroupAddon">@</div>
+                    </div>
+                    <input th:field="*{name}"
+                           type="text" class="form-control"
+                           placeholder="Input competition name"
+                           aria-label="Input competition name"
+                           aria-describedby="btnGroupAddon">
+                </div>
+                <input type="submit" />
+            </form>
+
+            <form th:fragment="updateForm" th:object="${updateCompetition}"
+                  th:action="@{/competitions/save}" method="post">
+                <select th:field="*{id}">
+                    <option th:each="competition : ${competitions}"
+                            th:value="${competition.id}"
+                            th:text="${competition.name}">
+                    </option>
+                </select>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text" id="btnGroupAddon2">@</div>
+                    </div>
+                    <input th:field="*{name}"
+                           type="text" class="form-control"
+                           placeholder="Input competition name"
+                           aria-label="Input competition name"
+                           aria-describedby="btnGroupAddon2">
+                </div>
                 <input type="submit" />
             </form>
         </div>
